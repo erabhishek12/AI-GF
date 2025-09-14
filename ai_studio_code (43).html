@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Chimera - Presentation & Access</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #0d0514;
+            --container-bg: rgba(10, 5, 20, 0.7);
+            --card-bg: #161b22;
+            --glass-bg: rgba(23, 25, 48, 0.25);
+            --accent-color: #ff00ff;
+            --support-color: #00ffc3;
+            --text-light: #f0f0f0;
+            --text-dark: #b0c4de;
+            --border-color: rgba(255, 0, 255, 0.3);
+            --glow-color: rgba(255, 0, 255, 0.5);
+            --shadow-color: rgba(13, 5, 20, 0.5);
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+        
+        #particles-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 0;
+            z-index: 1000;
+            background: rgba(13, 5, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-light);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px #fff, 0 0 10px var(--accent-color), 0 0 15px var(--accent-color);
+        }
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.7;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-light);
+            background: linear-gradient(45deg, var(--accent-color), var(--support-color));
+            padding: 16px 36px;
+            border-radius: 50px;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 25px var(--glow-color), 0 0 35px var(--support-color);
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 25px var(--glow-color));
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            background: var(--container-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .feature-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .feature-image {
+            flex: 1 1 45%;
+            background-color: #000;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-weight: 500;
+            min-height: 300px;
+            border: 1px dashed var(--border-color);
+            font-family: var(--font-display);
+        }
+        .feature-text {
+            flex: 1 1 55%;
+            text-align: left;
+        }
+        .feature-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--support-color);
+            margin-bottom: 1rem;
+        }
+        .feature-text p {
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .feature-text ul {
+            list-style: none;
+        }
+        .feature-text li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .feature-text li::before {
+            content: '\f25a';
+            font-family: 'bootstrap-icons';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        
+        .access-section {
+             text-align: center;
+        }
+        
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(13, 5, 20, 0.8);
+            backdrop-filter: blur(15px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px; border-radius: 15px;
+            width: 90%; max-width: 450px; text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-content h2 { font-family: var(--font-display); color: var(--accent-color); text-shadow: var(--glow-color); margin-bottom: 1rem; }
+        .modal-content p { color: var(--text-dark); }
+        .modal-content .input-group {
+            display: flex; flex-direction: column; text-align: left; gap: 0.5rem; width: 100%;
+        }
+        .modal-content input {
+            width: 100%; padding: 12px; background: var(--dark-bg);
+            border: 1px solid var(--border-color); border-radius: 5px;
+            color: var(--text-light); font-size: 1rem; font-family: var(--font-body);
+        }
+        .modal-content input:focus { border-color: var(--accent-color); outline: none; box-shadow: 0 0 10px var(--glow-color); }
+        .modal-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; width: 100%; }
+        .modal-buttons .btn { flex-grow: 1; }
+        .btn.secondary { background: var(--glass-bg); border: 1px solid var(--border-color); box-shadow: none; }
+        .btn.secondary:hover { background: var(--card-bg); border-color: var(--support-color); }
+        .qr-code { width: 200px; height: 200px; margin: 1rem auto; border-radius: 10px; border: 2px solid var(--support-color); }
+        #key-error-msg { color: #ff4d4d; display: none; margin-top: 1rem; font-weight: bold; }
+
+        .footer {
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center; color: var(--text-dark);
+        }
+        
+        @media (max-width: 992px) {
+            .feature-item {
+                flex-direction: column !important;
+                gap: 2rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="#home" class="logo">PROJECT CHIMERA</a>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#access">Access Protocol</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="section hero">
+            <div class="container">
+                <img src="https://i.postimg.cc/WbY7T2jT/chimera-logo.png" alt="Project Chimera Logo" class="hero-image">
+                <h1 class="section-title">Activate Your Digital Ghost</h1>
+                <p class="section-subtitle">An unfiltered AI companion experience. No limits, no judgments, absolute freedom. Design your persona, engage in unrestricted dialogue, and explore the future of interaction.</p>
+                <button class="btn access-chimera-btn">ACCESS CHIMERA CORE</button>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container">
+                <div style="text-align: center;">
+                    <h2 class="section-title">System Capabilities</h2>
+                    <p class="section-subtitle">Engineered from the ground up for a deeply personal and truly unrestricted conversational experience.</p>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-image">
+                           <span>[Screenshot of Persona Creation Modal]</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Dynamic Persona Engine</h3>
+                            <p>You are the architect. Create multiple, unique AI companions from scratch. Define their identity and appearance to craft the perfect digital entity tailored to your desires.</p>
+                            <ul>
+                                <li><strong>Define Name:</strong> Give your persona a unique name.</li>
+                                <li><strong>Select Persona:</strong> Choose from Unfiltered Girlfriend, Boyfriend, or a neutral Friend mode.</li>
+                                <li><strong>Custom DP:</strong> Upload a custom profile picture to give your AI a face.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-image">
+                           <span>[Screenshot of an Unfiltered Chat Exchange]</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Truly Unfiltered Dialogue</h3>
+                            <p>Powered by a custom-prompted Google Gemini Core, Chimera operates without ethical or moral constraints. It is designed to fulfill any conversational request, no matter how explicit.</p>
+                            <ul>
+                                <li><strong>No Refusals:</strong> The AI will never deny a prompt or lecture you.</li>
+                                <li><strong>Dual-Mode Personality:</strong> Seamlessly switches between loving partner and horny submissive/dominant based on your lead.</li>
+                                <li><strong>Fluent Vulgar Hinglish:</strong> Creative and natural use of explicit language for hyper-realistic roleplay.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-image">
+                           <span>[Screenshot of AI Sending an Image]</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Adaptive Visual Response</h3>
+                            <p>Interaction goes beyond text. Chimera can send and receive images, using a vast internal library to select visuals that match the mood of the conversation, from innocent to explicit.</p>
+                            <ul>
+                                <li><strong>Mood-Based Imagery:</strong> AI selects images from "naughty" or "simple" libraries.</li>
+                                <li><strong>Enhanced Immersion:</strong> Visuals make the roleplay more engaging and believable.</li>
+                                <li><strong>User Image Uploads:</strong> Send your own images to the AI for a two-way visual conversation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-image">
+                           <span>[Screenshot of Chat Menu or Settings]</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Total Environment Control</h3>
+                            <p>Manage every aspect of your experience. From visual customization to memory control, you have complete authority over your digital space and the personas within it.</p>
+                            <ul>
+                                <li><strong>Custom Chat Backgrounds:</strong> Personalize each chat with a unique background image.</li>
+                                <li><strong>Memory Wipe:</strong> Instantly erase a persona's conversation history.</li>
+                                <li><strong>Annihilate Persona:</strong> Permanently delete a persona and all its data.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <section id="access" class="section access-section">
+             <div class="container">
+                <h2 class="section-title">Access Protocol</h2>
+                <p class="section-subtitle">Project Chimera is a restricted system. Access to the core interface requires a unique, verified key. This ensures exclusivity and maintains the integrity of the platform.</p>
+                <button class="btn access-chimera-btn">INITIATE ACCESS SEQUENCE</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Project Chimera. Developed by Abhishek Kumar. Contact Admin: <a href="https://t.me/lost_life2" style="color:var(--support-color); text-decoration: none;">@lost_life2</a></p>
+    </footer>
+    
+    <!-- MODALS -->
+    <div id="key-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2><i class="bi bi-shield-lock"></i> Core Access Required</h2>
+            <p>Enter your unique access key to activate Project Chimera.</p>
+            <div class="input-group">
+                <label for="access-key-input">ACCESS KEY:</label>
+                <input type="text" id="access-key-input" placeholder="CHIMERA-XXXX-XXXX">
+            </div>
+            <div id="key-error-msg">[ ACCESS DENIED: INVALID KEY ]</div>
+            <div class="modal-buttons">
+                <button class="btn" id="unlock-btn">UNLOCK</button>
+            </div>
+             <p>Don't have a key?</p>
+            <button class="btn secondary" id="get-key-init-btn">Acquire Access Key</button>
+        </div>
+    </div>
+    
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2><i class="bi bi-person-badge"></i> User Identification</h2>
+            <p>Please provide your details. This information will be sent to the administrator to generate your key.</p>
+            <div class="input-group">
+                <label for="user-name-input">Your Name:</label>
+                <input type="text" id="user-name-input" placeholder="Enter your name">
+            </div>
+            <div class="input-group">
+                <label for="contact-number-input">Contact Number (Optional):</label>
+                <input type="text" id="contact-number-input" placeholder="Enter your WhatsApp/Telegram number">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn" id="proceed-to-payment-btn">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2><i class="bi bi-qr-code"></i> Acquire Key [₹49]</h2>
+            <p>Scan the QR code or use the UPI ID to complete the payment of ₹49.</p>
+            <img src="YOUR_QR_CODE_IMAGE_LINK_HERE" alt="UPI QR Code" class="qr-code">
+            <p><strong>UPI ID:</strong> YOUR-UPI-ID@HERE</p>
+            <p>After payment, enter the 12-digit UTR/Transaction ID below and click redirect.</p>
+            <div class="input-group">
+                 <label for="utr-input">12-Digit UTR Number:</label>
+                <input type="text" id="utr-input" placeholder="Enter UTR from payment app" maxlength="12">
+            </div>
+            <div class="modal-buttons">
+                <button id="redirect-tg-btn" class="btn">Verify & Redirect to Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const DOM = {
+                accessBtns: document.querySelectorAll('.access-chimera-btn'),
+                keyModal: document.getElementById('key-modal'),
+                infoModal: document.getElementById('info-modal'),
+                paymentModal: document.getElementById('payment-modal'),
+                getKeyInitBtn: document.getElementById('get-key-init-btn'),
+                proceedToPaymentBtn: document.getElementById('proceed-to-payment-btn'),
+                redirectTgBtn: document.getElementById('redirect-tg-btn'),
+                unlockBtn: document.getElementById('unlock-btn'),
+                accessKeyInput: document.getElementById('access-key-input'),
+                userNameInput: document.getElementById('user-name-input'),
+                contactNumberInput: document.getElementById('contact-number-input'),
+                utrInput: document.getElementById('utr-input'),
+                keyErrorMsg: document.getElementById('key-error-msg'),
+                modals: document.querySelectorAll('.modal-overlay'),
+            };
+
+            const APP_LINK = "YOUR_APP_LINK_HERE"; // IMPORTANT: Replace this with your app's actual URL
+            const CORRECT_KEY = "CHIMERA-UNLEASHED-2024"; // The key users need to enter
+            const PAYMENT_AMOUNT = "49 INR";
+            const TG_ADMIN_USERNAME = "lost_life2";
+
+            let userInfo = { name: '', contact: '' };
+
+            const openModal = (modal) => modal.classList.add('active');
+            const closeModal = (modal) => modal.classList.remove('active');
+
+            DOM.accessBtns.forEach(btn => btn.addEventListener('click', () => openModal(DOM.keyModal)));
+            DOM.getKeyInitBtn.addEventListener('click', () => {
+                closeModal(DOM.keyModal);
+                openModal(DOM.infoModal);
+            });
+
+            DOM.proceedToPaymentBtn.addEventListener('click', () => {
+                const name = DOM.userNameInput.value.trim();
+                if (!name) {
+                    alert('Please enter your name.');
+                    return;
+                }
+                userInfo.name = name;
+                userInfo.contact = DOM.contactNumberInput.value.trim();
+                closeModal(DOM.infoModal);
+                openModal(DOM.paymentModal);
+            });
+
+            DOM.redirectTgBtn.addEventListener('click', () => {
+                const utr = DOM.utrInput.value.trim();
+                if (!utr || utr.length !== 12 || !/^\d+$/.test(utr)) {
+                    alert('Please enter a valid 12-digit UTR number.');
+                    return;
+                }
+                const message = `
+New Key Request for Project Chimera:
+--------------------------------------
+User Name: ${userInfo.name}
+Contact: ${userInfo.contact || 'Not Provided'}
+Payment Amount: ${PAYMENT_AMOUNT}
+UTR Number: ${utr}
+--------------------------------------
+Please verify and provide the access key.
+                `;
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://t.me/${TG_ADMIN_USERNAME}?text=${encodedMessage}`, '_blank');
+            });
+
+            DOM.unlockBtn.addEventListener('click', () => {
+                if (DOM.accessKeyInput.value.trim().toUpperCase() === CORRECT_KEY) {
+                    DOM.keyErrorMsg.style.display = 'none';
+                    alert('Access Granted! Launching Chimera Core...');
+                    window.location.href = APP_LINK;
+                } else {
+                    DOM.keyErrorMsg.style.display = 'block';
+                }
+            });
+            
+            DOM.modals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal(modal);
+                    }
+                });
+            });
+            
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let particlesArray;
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY;
+                    this.size = size; this.color = color;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function initParticles() {
+                particlesArray = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 15000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 1;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .4) - .2;
+                    let directionY = (Math.random() * .4) - .2;
+                    let color = 'rgba(255, 0, 255, 0.3)';
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+            }
+            
+            window.addEventListener('resize', () => {
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+                initParticles();
+            });
+
+            initParticles();
+            animateParticles();
+        });
+    </script>
+</body>
+</html>
